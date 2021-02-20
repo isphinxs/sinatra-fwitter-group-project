@@ -1,10 +1,7 @@
 class UsersController < ApplicationController
-
-    get "/users/:id" do
-        if is_logged_in?(session)
-            @user = User.find(params[:id])
-            
-        end
+    get "/users/:slug" do
+        @user = User.find_by_slug(params[:slug])
+        @tweets = @user.tweets.all
+        erb :"users/show"
     end
-
 end

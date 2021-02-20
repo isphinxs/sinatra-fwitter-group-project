@@ -1,7 +1,17 @@
 require './config/environment'
+require 'sinatra/base'
+
+module Helpers
+  def is_logged_in?(session)
+    !!session[:user_id]
+  end
+
+  def current_user
+    User.find(session[:user_id])
+  end
+end
 
 class ApplicationController < Sinatra::Base
-
   configure do
     enable :sessions
     set :session_secret, "secret"
@@ -66,15 +76,5 @@ class ApplicationController < Sinatra::Base
     end
   end
 
- 
-
-  helpers do
-    def is_logged_in?(session)
-      !!session[:user_id]
-    end
-
-    def current_user
-      User.find(session[:user_id])
-    end
-  end
+  helpers Helpers
 end
